@@ -7,9 +7,21 @@
   revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
   version = "v1.7.3"
 
+[[projects]]
+  name = "github.com/jinzhu/gorm"
+  packages = ["."]
+  revision = "81c17a7e2529c59efc4e74c5b32c1fb71fb12fa2"
+  version = "v1.9.11"
+
+[[projects]]
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
+  version = "v1.0.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "376c0d5dfb4452fc14468b29ec84249796d85b23c90b36b3d6c74a409a1c84a7"
+  inputs-digest = "1167b5b14ee134a70c0a69b14ee1f778ccc309feb042d9147997b4a53e96809e"
   solver-name = "gps-cdcl"
   solver-version = 1
