@@ -6,9 +6,8 @@ type Client struct {
 }
 
 func NewUser(name string, email string) *Client {
-	client := new(Client)
-	client.Email = email
-	client.Name = name
-
-	return client
+	return &Client{
+		Email: email,
+		Name:  name,
+	}
 }

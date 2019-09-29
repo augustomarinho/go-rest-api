@@ -17,5 +17,8 @@ func NewClientController() *ClientController {
 
 func (controller *ClientController) GetClients(w http.ResponseWriter, r *http.Request) {
 	client := model.NewUser("Augusto", "augustomarinho@conteudoatual.com.br")
-	rest.RespondWithJSON(w, http.StatusOK, client)
+	var clients [1]*model.Client
+	clients[0] = client
+
+	rest.RespondWithJSON(w, http.StatusOK, clients)
 }
