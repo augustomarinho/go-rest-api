@@ -11,7 +11,7 @@ GO=${GO:-`which go`}
 cd $SRC_DIR
 
 echo "Building project"
-$GO build
+$GO build -v
 echo "Project Built"
 
 echo "Running tests"
