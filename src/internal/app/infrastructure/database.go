@@ -12,9 +12,9 @@ type Database struct {
 }
 
 func NewDatabase() *Database {
-
 	database := new(Database)
 	database.connect()
+
 	return database
 }
 
@@ -31,7 +31,6 @@ func (db *Database) connect() {
 	}
 
 	db.connection = gormDb
-
 }
 
 func (db *Database) InitializeDatabase(tables ...interface{}) {
