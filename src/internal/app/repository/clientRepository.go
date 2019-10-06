@@ -21,7 +21,7 @@ func (repository *ClientRepositoryImpl) FindAll() ([]model.Client, error) {
 	users := []entities.ClientEntity{}
 
 	database := infrastructure.NewDatabase()
-	err := database.GetConnection().Find(&users)
+	err := database.GetConnection().Find(&users).Error
 
 	if err != nil {
 		return nil, errors.New("Problems to find all Clients on Database")
@@ -45,7 +45,7 @@ func (repository *ClientRepositoryImpl) Save(model *model.Client) error {
 	entity := entities.NewClientEntity(model)
 
 	database := infrastructure.NewDatabase()
-	err := database.GetConnection().Save(entity)
+	err := database.GetConnection().Save(entity).Error
 
 	if err != nil {
 		return errors.New("Problems to find all Clients on Database")
