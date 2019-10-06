@@ -20,4 +20,5 @@ func (router *Router) Start() {
 
 	clientController := controllers.NewClientController()
 	router.Router.HandleFunc("/clients", clientController.GetClients).Methods("GET")
+	router.Router.HandleFunc("/client", clientController.CreateClient).Methods("POST")
 }

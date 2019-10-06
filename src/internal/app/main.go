@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"internal/app/entities"
 	"internal/app/infrastructure"
-	"internal/app/model"
 	"internal/app/web"
 	"net/http"
 )
@@ -20,7 +20,6 @@ func main() {
 
 func connectOnDataBase() {
 	dataBase := infrastructure.NewDatabase()
-	dataBase.Connect()
-	dataBase.InitializeDatabase(&model.Client{})
+	dataBase.InitializeDatabase(&entities.ClientEntity{})
 	defer dataBase.CloseConnection()
 }
