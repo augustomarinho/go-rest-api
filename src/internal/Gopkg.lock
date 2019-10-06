@@ -2,32 +2,56 @@
 
 
 [[projects]]
+  digest = "1:883e2fdbdd0e577187bd8106fec775b1176059af267a7f40eba5308955c67d52"
   name = "github.com/gorilla/mux"
   packages = ["."]
+  pruneopts = ""
   revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
   version = "v1.7.3"
 
 [[projects]]
+  digest = "1:9e6061d60fb018cec58795a2e645c6012312f8e7db1efaf7db25df5cbf3f7a2e"
   name = "github.com/jinzhu/gorm"
-  packages = [".","dialects/sqlite"]
+  packages = [
+    ".",
+    "dialects/sqlite",
+  ]
+  pruneopts = ""
   revision = "81c17a7e2529c59efc4e74c5b32c1fb71fb12fa2"
   version = "v1.9.11"
 
 [[projects]]
+  digest = "1:a7b97371fb9af808b6a4fcc6693276ef7869bb1f282c3c87038c6c7e74ef4ae6"
   name = "github.com/jinzhu/inflection"
   packages = ["."]
+  pruneopts = ""
   revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:74caa8ec05222a15289e36567953f9079a3f80a82907cba75000bc5c151a8154"
+  name = "github.com/kinbiko/jsonassert"
+  packages = ["."]
+  pruneopts = ""
+  revision = "c775cc20ec527cb4016367c7dd0e92509db5da5a"
+  version = "v1.0.1"
+
+[[projects]]
+  digest = "1:cd4379452cc81f79acc16c477a1d1d7c2bf5807697f6cf3aafe221c4fbfed4ce"
   name = "github.com/mattn/go-sqlite3"
   packages = ["."]
+  pruneopts = ""
   revision = "b612a2feea6aa87c6d052d9086572551df06497e"
   version = "v1.11.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "163a4f49e1d6bb6b543c4dfb4924bb57a97410245713f70a80901a112725fdae"
+  input-imports = [
+    "github.com/gorilla/mux",
+    "github.com/jinzhu/gorm",
+    "github.com/jinzhu/gorm/dialects/sqlite",
+    "github.com/kinbiko/jsonassert",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

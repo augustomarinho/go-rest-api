@@ -5,9 +5,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/kinbiko/jsonassert"
 )
 
 func TestGetClientsHandlerWithSuccess(t *testing.T) {
+	ja := jsonassert.New(t)
 
 	req, err := http.NewRequest("GET", "/clients", nil)
 
@@ -26,9 +29,5 @@ func TestGetClientsHandlerWithSuccess(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	expected := `[{"name":"Augusto","email":"augustomarinho@conteudoatual.com.br"}]`
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
-	}
+	ja.Assertf(rr.Body.String(), `[{"name":"<<PRESENCE>>", "email": "<<PRESENCE>>"}]`)
 }
