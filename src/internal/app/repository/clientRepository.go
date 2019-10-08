@@ -20,7 +20,7 @@ type ClientRepositoryImpl struct {
 func (repository *ClientRepositoryImpl) FindAll() ([]model.Client, error) {
 	users := []entities.ClientEntity{}
 
-	database := infrastructure.NewDatabase()
+	database := infrastructure.ConnectDatabase()
 	err := database.GetConnection().Find(&users).Error
 
 	if err != nil {
@@ -44,7 +44,7 @@ func (repository *ClientRepositoryImpl) Save(model *model.Client) error {
 
 	entity := entities.NewClientEntity(model)
 
-	database := infrastructure.NewDatabase()
+	database := infrastructure.ConnectDatabase()
 	err := database.GetConnection().Save(entity).Error
 
 	if err != nil {

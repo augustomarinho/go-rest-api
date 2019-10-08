@@ -10,7 +10,8 @@ import (
 
 func main() {
 	fmt.Println("Starting Web Application")
-	connectOnDataBase()
+	database := connectOnDataBase()
+	defer database.CloseConnection()
 
 	webRoute := web.NewRouter()
 	webRoute.Start()
@@ -18,8 +19,8 @@ func main() {
 	http.ListenAndServe(":8080", webRoute.Router)
 }
 
-func connectOnDataBase() {
-	dataBase := infrastructure.NewDatabase()
+func connectOnDataBase() *infrastructure.Database {
+	dataBase := infrastructure.ConnectDatabase()
 	dataBase.InitializeDatabase(&entities.ClientEntity{})
-	defer dataBase.CloseConnection()
+	return dataBase
 }

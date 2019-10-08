@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -11,36 +12,37 @@ type Database struct {
 	connection *gorm.DB
 }
 
-func NewDatabase() *Database {
-	database := new(Database)
-	database.connect()
+var singletonDb *Database
 
-	return database
-}
+func ConnectDatabase() *Database {
 
-func (db *Database) connect() {
+	if singletonDb == nil {
+		gormDb, err := gorm.Open("sqlite3", "/tmp/gorm.db")
+		gormDb.DB().SetMaxIdleConns(10)
+		gormDb.DB().SetMaxOpenConns(20)
+		gormDb.DB().SetConnMaxLifetime(time.Hour)
+		gormDb.LogMode(true)
 
-	gormDb, err := gorm.Open("sqlite3", "/tmp/gorm.db")
-	gormDb.DB().SetMaxIdleConns(10)
-	gormDb.DB().SetMaxOpenConns(20)
-	gormDb.DB().SetConnMaxLifetime(time.Hour)
-	gormDb.LogMode(true)
-
-	if err != nil {
-		panic("Failed to open the SQLite database.")
+		if err != nil {
+			panic("Failed to open the SQLite database.")
+		}
+		singletonDb = &Database{connection: gormDb}
 	}
 
-	db.connection = gormDb
+	return singletonDb
 }
 
-func (db *Database) InitializeDatabase(tables ...interface{}) {
+func (db Database) InitializeDatabase(tables ...interface{}) {
 	db.connection.AutoMigrate(tables...)
 }
 
-func (db *Database) GetConnection() *gorm.DB {
+func (db Database) GetConnection() *gorm.DB {
+	fmt.Println(&singletonDb)
+	fmt.Println(&db)
 	return db.connection
 }
 
-func (db *Database) CloseConnection() {
+func (db Database) CloseConnection() {
+	fmt.Println("Database closed")
 	db.connection.Close()
 }
