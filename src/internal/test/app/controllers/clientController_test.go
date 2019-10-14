@@ -2,10 +2,9 @@ package controllers
 
 import (
 	"bytes"
-	"encoding/json"
 	"internal/app/controllers"
-	"internal/app/model"
 	"internal/app/repository/mocks"
+	testhelper "internal/test/helper"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -23,7 +22,7 @@ func TestGetClientsHandlerWithSuccess(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	var clients = buildMockClients()
+	var clients = testhelper.BuildMockClients()
 	clientRepositoryMock := new(mocks.ClientRepository)
 	clientRepositoryMock.On("FindAll").Return(clients, nil)
 
@@ -43,8 +42,8 @@ func TestGetClientsHandlerWithSuccess(t *testing.T) {
 
 func TestCreateClientHandlerWithSuccess(t *testing.T) {
 
-	expectedClient := buildClientModel()
-	payload := buildJsonClient()
+	expectedClient := testhelper.BuildClientModel()
+	payload := testhelper.BuildJsonClient()
 
 	clientRepositoryMock := new(mocks.ClientRepository)
 	clientRepositoryMock.On("Save", &expectedClient).Return(nil)
@@ -64,7 +63,7 @@ func TestCreateClientHandlerWithSuccess(t *testing.T) {
 
 func TestGetClientByEmailHandlerWithSuccess(t *testing.T) {
 	ja := jsonassert.New(t)
-	expectedClient := buildClientModel()
+	expectedClient := testhelper.BuildClientModel()
 
 	clientRepositoryMock := new(mocks.ClientRepository)
 	clientRepositoryMock.On("FindByEmail", expectedClient.Email).Return(&expectedClient, nil)
@@ -86,7 +85,7 @@ func TestGetClientByEmailHandlerWithSuccess(t *testing.T) {
 }
 
 func TestGetClientByEmailHandler_ClientNotFound(t *testing.T) {
-	expectedClient := buildClientModel()
+	expectedClient := testhelper.BuildClientModel()
 
 	clientRepositoryMock := new(mocks.ClientRepository)
 	clientRepositoryMock.On("FindByEmail", expectedClient.Email).Return(nil, nil)
@@ -104,24 +103,4 @@ func TestGetClientByEmailHandler_ClientNotFound(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.Equal(t, rr.Code, http.StatusNotFound, "they should be equal")
-}
-
-func buildClientModel() model.Client {
-	client := model.NewUser("Augusto", "augustomarinho@conteudoatual.com.br")
-	return *client
-}
-
-func buildMockClients() []model.Client {
-	client := buildClientModel()
-	var clients = make([]model.Client, 1, 1)
-	clients[0] = client
-
-	return clients
-}
-
-func buildJsonClient() []byte {
-	clientModel := buildClientModel()
-	jsonClient, _ := json.Marshal(clientModel)
-
-	return jsonClient
 }
