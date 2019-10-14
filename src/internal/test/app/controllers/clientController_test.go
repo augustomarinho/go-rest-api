@@ -62,6 +62,50 @@ func TestCreateClientHandlerWithSuccess(t *testing.T) {
 	assert.Equal(t, rr.Code, http.StatusCreated, "they should be equal")
 }
 
+func TestGetClientByEmailHandlerWithSuccess(t *testing.T) {
+	ja := jsonassert.New(t)
+	expectedClient := buildClientModel()
+
+	clientRepositoryMock := new(mocks.ClientRepository)
+	clientRepositoryMock.On("FindByEmail", expectedClient.Email).Return(&expectedClient, nil)
+
+	clientController := controllers.NewClientController(clientRepositoryMock)
+
+	req, err := http.NewRequest("GET", "/client", nil)
+	reqQuery := req.URL.Query()
+	reqQuery.Add("email", expectedClient.Email)
+	req.URL.RawQuery = reqQuery.Encode()
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(clientController.GetClientByEmail)
+	handler.ServeHTTP(rr, req)
+
+	assert.Nil(t, err)
+	assert.Equal(t, rr.Code, http.StatusOK, "they should be equal")
+	ja.Assertf(rr.Body.String(), `{"name":"<<PRESENCE>>", "email": "<<PRESENCE>>"}`)
+}
+
+func TestGetClientByEmailHandler_ClientNotFound(t *testing.T) {
+	expectedClient := buildClientModel()
+
+	clientRepositoryMock := new(mocks.ClientRepository)
+	clientRepositoryMock.On("FindByEmail", expectedClient.Email).Return(nil, nil)
+
+	clientController := controllers.NewClientController(clientRepositoryMock)
+
+	req, err := http.NewRequest("GET", "/client", nil)
+	reqQuery := req.URL.Query()
+	reqQuery.Add("email", expectedClient.Email)
+	req.URL.RawQuery = reqQuery.Encode()
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(clientController.GetClientByEmail)
+	handler.ServeHTTP(rr, req)
+
+	assert.Nil(t, err)
+	assert.Equal(t, rr.Code, http.StatusNotFound, "they should be equal")
+}
+
 func buildClientModel() model.Client {
 	client := model.NewUser("Augusto", "augustomarinho@conteudoatual.com.br")
 	return *client
