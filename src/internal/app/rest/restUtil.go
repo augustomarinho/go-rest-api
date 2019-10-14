@@ -7,7 +7,7 @@ import (
 )
 
 func RespondWithHttpCode(w http.ResponseWriter, code int) {
-	w.Header().Set("Content-Type", "application/json")
+	//w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 }
 

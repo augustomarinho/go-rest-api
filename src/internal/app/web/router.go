@@ -23,4 +23,10 @@ func (router *Router) Start() {
 	clientController := controllers.NewClientController(clientRepository)
 	router.Router.HandleFunc("/clients", clientController.GetClients).Methods("GET")
 	router.Router.HandleFunc("/client", clientController.CreateClient).Methods("POST")
+	router.Router.
+		Path("/client").
+		Methods("GET").
+		Queries("email", "{email}").
+		HandlerFunc(clientController.GetClientByEmail).
+		Name("clientController.GetClientByEmail")
 }

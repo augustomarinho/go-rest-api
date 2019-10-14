@@ -37,7 +37,17 @@ func (repository *ClientRepositoryImpl) FindAll() ([]model.Client, error) {
 }
 
 func (repository *ClientRepositoryImpl) FindByEmail(email string) (*model.Client, error) {
+	user := new(entities.ClientEntity)
+	database := infrastructure.ConnectDatabase()
+	userFound := database.GetConnection().Where("email=?", email).Find(user).RecordNotFound()
+
+	if !userFound {
+		client := entities.NewClient(*user)
+		return client, nil
+	}
+
 	return nil, nil
+
 }
 
 func (repository *ClientRepositoryImpl) Save(model *model.Client) error {
