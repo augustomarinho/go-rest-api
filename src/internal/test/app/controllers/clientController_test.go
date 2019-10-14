@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"internal/app/controllers"
+	"internal/app/model"
+	"internal/app/repository/mocks"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -18,7 +20,11 @@ func TestGetClientsHandlerWithSuccess(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	clientController := controllers.NewClientController()
+	var clients = buildMockClients()
+	clientRepositoryMock := new(mocks.ClientRepository)
+	clientRepositoryMock.On("FindAll").Return(clients, nil)
+
+	clientController := controllers.NewClientController(clientRepositoryMock)
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(clientController.GetClients)
 
@@ -30,4 +36,12 @@ func TestGetClientsHandlerWithSuccess(t *testing.T) {
 	}
 
 	ja.Assertf(rr.Body.String(), `[{"name":"<<PRESENCE>>", "email": "<<PRESENCE>>"}]`)
+}
+
+func buildMockClients() []model.Client {
+	client := model.NewUser("Augusto", "augustomarinho@conteudoatual.com.br")
+	var clients = make([]model.Client, 1, 1)
+	clients[0] = *client
+
+	return clients
 }

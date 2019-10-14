@@ -2,6 +2,7 @@ package web
 
 import (
 	"internal/app/controllers"
+	"internal/app/repository"
 
 	"github.com/gorilla/mux"
 )
@@ -18,7 +19,8 @@ func NewRouter() *Router {
 func (router *Router) Start() {
 	router.Router = mux.NewRouter().StrictSlash(true)
 
-	clientController := controllers.NewClientController()
+	clientRepository := new(repository.ClientRepositoryImpl)
+	clientController := controllers.NewClientController(clientRepository)
 	router.Router.HandleFunc("/clients", clientController.GetClients).Methods("GET")
 	router.Router.HandleFunc("/client", clientController.CreateClient).Methods("POST")
 }

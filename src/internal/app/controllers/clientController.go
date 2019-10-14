@@ -12,10 +12,10 @@ type ClientController struct {
 	repository repository.ClientRepository
 }
 
-func NewClientController() *ClientController {
+func NewClientController(repository repository.ClientRepository) *ClientController {
 
 	controller := new(ClientController)
-	controller.repository = new(repository.ClientRepositoryImpl)
+	controller.repository = repository
 
 	return controller
 }
