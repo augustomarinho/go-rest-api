@@ -15,4 +15,7 @@ $GO build -v
 echo "Project Built"
 
 echo "Running tests"
-$GO test -v $TEST_DIR/...
+$GO test -coverpkg=./... -v -coverprofile=$BASEDIR/cover.out $TEST_DIR/...
+
+echo "Geranting coverege report"
+$GO tool cover -html=$BASEDIR/cover.out -o $BASEDIR/cover.html
