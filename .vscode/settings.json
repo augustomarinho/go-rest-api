@@ -1,5 +1,6 @@
 {
     "git.ignoreLimitWarning": true,
-    "go.inferGopath": true,
-    "go.gopath": "${workspaceFolder}"
+    "go.inferGopath": false,
+    "go.gopath": "${workspaceFolder}",
+    "go.gotoSymbol.includeImports": true
 }
